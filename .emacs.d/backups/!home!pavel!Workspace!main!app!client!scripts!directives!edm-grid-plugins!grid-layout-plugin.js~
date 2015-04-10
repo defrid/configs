@@ -1,0 +1,80 @@
+(function() {
+    'use strict';
+    var app = angular.module('edm');
+
+    //SlickGrid plugin
+    app.factory('edmGridLayoutPlugin', function($timeout) {
+        return function() {
+			function getScrollbarWidth(container) {
+				var viewPort = $(".slick-viewport", container);
+				if (!viewPort.hasScrollBar()) return 0;
+				var outer = document.createElement("div");
+				outer.style.visibility = "hidden";
+				outer.style.width = "100px";
+				outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+
+				document.body.appendChild(outer);
+
+				var widthNoScroll = outer.offsetWidth;
+				// force scrollbars
+				outer.style.overflow = "scroll";
+
+				// add innerdiv
+				var inner = document.createElement("div");
+				inner.style.width = "100%";
+				outer.appendChild(inner);
+
+				var widthWithScroll = inner.offsetWidth;
+
+				// remove divs
+				outer.parentNode.removeChild(outer);
+
+				return widthNoScroll - widthWithScroll;
+			}
+
+			function setColumnsWidth($scope, lastWidth) {
+				console.log($scope._rawHeaders);
+				var remainingWidth = lastWidth - getScrollbarWidth($scope.$g);
+				var nonResizableCount = 0;
+				angular.forEach($scope._headers, function (column) {
+					if (!column.resizable) {
+						nonResizableCount++;
+						remainingWidth -= column.width;
+					}
+				});
+
+				var columnWidth = remainingWidth / ($scope._headers.length - nonResizableCount);
+				columnWidth = (columnWidth > 30) ? columnWidth : 30;
+
+				$scope.grid.setColumns($scope._headers);
+			}
+
+			//Autosizes columns to fit width of the container
+			function autoFitColumns($scope) {
+				function CallGridRender(lastWidth) {
+					setColumnsWidth($scope, lastWidth);
+				};
+
+				//отслеживание ширины контейнера
+				var lastWidth = $scope.$g.width();
+				function widthWatcher() {
+					$timeout(function () {
+						if (lastWidth != $scope.$g.width()) {
+							lastWidth = $scope.$g.width();
+							CallGridRender(lastWidth);
+						}
+						widthWatcher();
+					}, 500);
+				};
+				widthWatcher();
+				//CallGridRender(lastWidth);
+			}
+
+            var $scope;
+            this.resize = function($scopeLocalVariable) {
+				$scope = $scopeLocalVariable;
+				autoFitColumns($scope);
+            };
+        };
+    });
+})();

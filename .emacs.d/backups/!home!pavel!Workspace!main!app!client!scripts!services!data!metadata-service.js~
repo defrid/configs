@@ -1,0 +1,14 @@
+(function(window, angular) {
+    'use strict';
+
+    //base service for manual Cleaning, provides fast requests
+    angular.module('edm')
+        .service('MetadataService',
+            function($http, EndpointsService) {
+                this.get = function(){
+                    return EndpointsService.executeData('/api/v1/metadata/tablenames', 'GET');
+                };
+
+            }
+        );
+}(window, window.angular));
