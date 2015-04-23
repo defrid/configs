@@ -130,7 +130,7 @@
 
 (add-to-list 'write-file-functions 'delete-trailing-whitespace)
 
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
@@ -152,16 +152,6 @@
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
-(setq js2-highlight-level 3)
-
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq ac-js2-evaluate-calls t)
-
-(eval-after-load 'tern
-	'(progn
-      (require 'tern-auto-complete)
-      (tern-ac-setup)))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -212,3 +202,5 @@
 (require 'redo+)
 (require 'redo+)
 (global-set-key (kbd "C-?") 'redo)
+
+(set-face-attribute 'default nil :family "Consolas" :height 100)
