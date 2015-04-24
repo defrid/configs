@@ -18,7 +18,9 @@
     (setq win-init-ct-path      "C:/.emacs.d/plugins/color-theme")
     (setq win-init-ac-path      "C:/.emacs.d/plugins/auto-complete")
     (setq win-init-slime-path   "C:/slime")
-    (setq win-init-ac-dict-path "C:/.emacs.d/plugins/auto-complete/dict"))
+    (setq win-init-ac-dict-path "C:/.emacs.d/plugins/auto-complete/dict")
+	;; Custom font for windows
+	(set-face-attribute 'default nil :family "Consolas" :height 100))
 
 ;; Unix path-variable
 (when (system-is-linux)
@@ -27,7 +29,17 @@
     (setq unix-init-ct-path      "~/.emacs.d/plugins/color-theme")
     (setq unix-init-ac-path      "~/.emacs.d/plugins/auto-complete")
     (setq unix-init-slime-path   "/usr/share/common-lisp/source/slime/")
-    (setq unix-init-ac-dict-path "~/.emacs.d/plugins/auto-complete/dict"))
+    (setq unix-init-ac-dict-path "~/.emacs.d/plugins/auto-complete/dict")
+	;; jslint behaviour only for linux
+	(setq js2-highlight-level 3)
+	(add-hook 'js-mode-hook 'js2-minor-mode)
+	(add-hook 'js2-mode-hook 'ac-js2-mode)
+	(setq ac-js2-evaluate-calls t)
+
+	(eval-after-load 'tern
+		'(progn
+		  (require 'tern-auto-complete)
+		  (tern-ac-setup))))
 
 
 ;; Display the name of the current buffer in the title bar
@@ -202,5 +214,3 @@
 (require 'redo+)
 (require 'redo+)
 (global-set-key (kbd "C-?") 'redo)
-
-(set-face-attribute 'default nil :family "Consolas" :height 100)
