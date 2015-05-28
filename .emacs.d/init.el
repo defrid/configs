@@ -155,6 +155,11 @@
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
+;;Restart tern-server
+(defun delete-tern-process ()
+  (interactive)
+  (delete-process "Tern"))
+
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
 (eval-after-load 'tern
     '(progn
@@ -214,3 +219,42 @@
 (require 'redo+)
 (require 'redo+)
 (global-set-key (kbd "C-?") 'redo)
+
+;;WEB-beautify setup
+(require 'web-beautify) ;; Not necessary if using ELPA package
+(eval-after-load 'js2-mode
+  '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
+(eval-after-load 'js
+  '(define-key js-mode-map (kbd "C-c b") 'web-beautify-js))
+
+(eval-after-load 'json-mode
+  '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
+
+(eval-after-load 'sgml-mode
+  '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
+
+(eval-after-load 'css-mode
+  '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))
+
+
+(add-to-list 'load-path "~/.emacs.d/packages/angular-mode")
+(require 'angular-mode)
+(require 'angular-html-mode)
+
+(define-derived-mode angular-jade-mode
+	jade-mode
+	"Jade[Angular]"
+	"Major HTML mode for AngularJS.
+\\{jade-mode-map}"
+
+	(setq font-lock-defaults (list
+							  (append jade-font-lock-keywords
+									  angular-html-font-lock-keywords))))
+
+(add-to-list 'auto-mode-alist '("\\.jade\\'" . angular-jade-mode))
+
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/packages/angular-mode/ac-dict")
+(add-to-list 'ac-modes 'angular-mode)
+(add-to-list 'ac-modes 'angular-html-mode)
+(add-to-list 'ac-modes 'angular-jade-mode)
