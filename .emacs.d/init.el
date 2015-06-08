@@ -258,3 +258,30 @@
 (add-to-list 'ac-modes 'angular-mode)
 (add-to-list 'ac-modes 'angular-html-mode)
 (add-to-list 'ac-modes 'angular-jade-mode)
+
+;;Scroll all for mouse wheel
+(defun mwheel-scroll-all-function-all (func arg)
+	(if scroll-all-mode
+		(save-selected-window
+			(walk-windows
+			 (lambda (win)
+				 (select-window win)
+				 (condition-case nil
+					 (funcall func arg)
+					 (error nil)))))
+		(funcall func arg)))
+
+(defun mwheel-scroll-all-scroll-up-all (arg)
+	(mwheel-scroll-all-function-all 'scroll-up arg))
+
+(defun mwheel-scroll-all-scroll-down-all (arg)
+	(mwheel-scroll-all-function-all 'scroll-down arg))
+
+(setq mwheel-scroll-up-function 'mwheel-scroll-all-scroll-up-all)
+(setq mwheel-scroll-down-function 'mwheel-scroll-all-scroll-down-all)
+
+(require 'highlight-symbol)
+(global-set-key (kbd "C-c h") 'highlight-symbol)
+(global-set-key [f3] 'highlight-symbol-next)
+(global-set-key [(shift f3)] 'highlight-symbol-prev)
+(global-set-key [(meta f3)] 'highlight-symbol-query-replace)
