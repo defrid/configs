@@ -25,7 +25,7 @@
 ;; Unix path-variable
 (when (system-is-linux)
     (setq unix-sbcl-bin          "/usr/bin/sbcl")
-    (setq unix-init-path         "~/.emacs.d")
+    (setq unix-init-path         "~/.emacs.d/lisp")
     (setq unix-init-ct-path      "~/.emacs.d/plugins/color-theme")
     (setq unix-init-ac-path      "~/.emacs.d/plugins/auto-complete")
     (setq unix-init-slime-path   "/usr/share/common-lisp/source/slime/")
