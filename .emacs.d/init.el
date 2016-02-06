@@ -216,11 +216,7 @@
 	  `((".*" ,(expand-file-name
 				(concat user-emacs-directory "auto-save")) t)))
 ;;activate Redo func
-(require 'redo+)
-(require 'redo+)
 (global-set-key (kbd "C-?") 'redo)
-
-(require 'web-beautify) ;; Using web-beautify
 
 (eval-after-load 'js2-mode
 	'(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
@@ -231,67 +227,8 @@
 (eval-after-load 'css-mode
 	'(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))
 
-;;auto-beautify on saving
-(add-hook 'js-mode-hook
-		  (lambda () (add-hook 'before-save-hook 'web-beautify-js-buffer t t)))
-
-(eval-after-load 'js2-mode
-	'(add-hook 'js2-mode-hook
-	  (lambda ()
-		  (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
-
-(eval-after-load 'json-mode
-	'(add-hook 'json-mode-hook
-	  (lambda ()
-		  (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
-
-(eval-after-load 'sgml-mode
-	'(add-hook 'html-mode-hook
-	  (lambda ()
-		  (add-hook 'before-save-hook 'web-beautify-html-buffer t t))))
-
-(eval-after-load 'css-mode
-	'(add-hook 'css-mode-hook
-	  (lambda ()
-		  (add-hook 'before-save-hook 'web-beautify-css-buffer t t))))
-;;WEB-beautify setup
-(require 'web-beautify) ;; Not necessary if using ELPA package
-(eval-after-load 'js2-mode
-  '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
-;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
 (eval-after-load 'js
   '(define-key js-mode-map (kbd "C-c b") 'web-beautify-js))
-
-(eval-after-load 'json-mode
-  '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
-
-(eval-after-load 'sgml-mode
-  '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
-
-(eval-after-load 'css-mode
-  '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))
-
-
-(add-to-list 'load-path "~/.emacs.d/packages/angular-mode")
-(require 'angular-mode)
-(require 'angular-html-mode)
-
-(define-derived-mode angular-jade-mode
-	jade-mode
-	"Jade[Angular]"
-	"Major HTML mode for AngularJS.
-\\{jade-mode-map}"
-
-	(setq font-lock-defaults (list
-							  (append jade-font-lock-keywords
-									  angular-html-font-lock-keywords))))
-
-(add-to-list 'auto-mode-alist '("\\.jade\\'" . angular-jade-mode))
-
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/packages/angular-mode/ac-dict")
-(add-to-list 'ac-modes 'angular-mode)
-(add-to-list 'ac-modes 'angular-html-mode)
-(add-to-list 'ac-modes 'angular-jade-mode)
 
 ;;Scroll all for mouse wheel
 (defun mwheel-scroll-all-function-all (func arg)
@@ -321,3 +258,4 @@
 (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
 
 (add-to-list 'auto-mode-alist '("\\.scss$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.less$" . web-mode))
